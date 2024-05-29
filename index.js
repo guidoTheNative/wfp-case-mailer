@@ -9,8 +9,8 @@ const credentials = require('./service-account.json'); // Path to your service a
 
 // Load email mappings from Excel file
 const workbook = xlsx.readFile('./MAILING LIST MAPPING.xlsx');
-const prioritySheet = xlsx.utils.sheet_to_json(workbook.Sheets['MAILING LIST BY PRIORITY']);
-const districtSheet = xlsx.utils.sheet_to_json(workbook.Sheets['MAILING LIST BY DISTRICT']);
+const emailSheet = xlsx.utils.sheet_to_json(workbook.Sheets['MAILING LIST BY PRIORITY']);
+//const districtSheet = xlsx.utils.sheet_to_json(workbook.Sheets['MAILING LIST BY DISTRICT']);
 
 /**
  * Create a JWT client with the given credentials, and then execute the given callback function.
@@ -44,7 +44,7 @@ function getLatestMonthSheetName(auth, spreadsheetId, callback) {
 
         const sheetNames = res.data.sheets.map(sheet => sheet.properties.title);
         const months = [
-            "January", "February", "March", "April", "May", "June", 
+            "January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"
         ];
         const now = new Date();
@@ -76,7 +76,7 @@ function watchSpreadsheet(auth) {
             console.log('No valid sheet found. Exiting.');
             return;
         }
-        
+
         const sheets = google.sheets({ version: 'v4', auth });
         const range = `${latestSheetName}!A:Z`;
 
@@ -116,7 +116,7 @@ function watchSpreadsheet(auth) {
                                 formattedText += `<li><strong>${header}:</strong> ${value}</li>`;
                             });
                             formattedText += '</ul>';
-                            
+
                             // Determine recipient emails
                             let recipientEmails = determineRecipientEmails(programme, priority, district);
                             sendEmail(subject, formattedText, recipientEmails);
@@ -147,28 +147,47 @@ function watchSpreadsheet(auth) {
  * @param {string} district The district of the case.
  * @return {string} The recipient emails.
  */
+/**
+ * Determine recipient emails based on programme, priority, and district.
+ * @param {string} programme The programme of the case.
+ * @param {string} priority The priority of the case.
+ * @param {string} district The district of the case.
+ * @return {string|null} The recipient emails or null if no emails should be sent.
+ */
 function determineRecipientEmails(programme, priority, district) {
-    if ((priority === 'High' && programme === 'Undefined') || priority === 'High') {
-        // High priority or undefined programme
-        return prioritySheet
-            .filter(row => row.Priority === 'High')
-            .map(row => row.Emails)
-            .join(',');
-    } else {
-        // Medium or low priority
-        const districtRow = districtSheet.find(row => row.District === district);
-        if (districtRow) {
-            return districtRow.Emails;
-        } else {
-            // Fallback to high priority emails if district is not found
-            return prioritySheet
-                .filter(row => row.Priority === 'High')
-                .map(row => row.Emails)
-                .join(',');
-        }
-    }
-}
+    // Treat undefined programme as 'other'
+    const actualProgramme = programme && programme !== 'undefined' ? programme : 'Other';
 
+    let recipientEmails = emailSheet
+        .filter(row =>
+            (row.Programme ? row.Programme.includes(actualProgramme) : true) &&
+            (priority ? row.Priority.includes(priority) : true) &&
+            (district ? row.District === district : true)
+        )
+        .map(row => row.Emails)
+        .join(';'); // Use ';' as the delimiter to match the email splitting in the next step
+
+    if (recipientEmails.length === 0) {
+        // Fallback to programme and priority only if no recipients are found in the given district
+        recipientEmails = emailSheet
+            .filter(row =>
+                (row.Programme ? row.Programme.includes(actualProgramme) : true) &&
+                (priority ? row.Priority.includes(priority) : true)
+            )
+            .map(row => row.Emails)
+            .join(';');
+    }
+
+    if (recipientEmails.length === 0 && priority.includes('High')) {
+        // Fallback to high priority emails if no recipients found
+        recipientEmails = emailSheet
+            .filter(row => row.Priority.includes('High'))
+            .map(row => row.Emails)
+            .join(';');
+    }
+
+    return recipientEmails.length > 0 ? recipientEmails.split(';').join(',') : null;
+}
 /**
  * Send an email notification.
  * @param {string} subject The subject of the email.
