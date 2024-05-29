@@ -1,0 +1,16 @@
+{
+  "name": "wfp-case-manager",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "JOHN CHALERA <john.chalera@wfp.org>",
+  "license": "ISC",
+  "dependencies": {
+    "googleapis": "^137.1.0",
+    "nodemailer": "^6.9.13",
+    "xlsx": "^0.18.5"
+  }
+}
