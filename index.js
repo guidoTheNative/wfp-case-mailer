@@ -9,13 +9,8 @@ const credentials = require('./service-account.json'); // Path to your service a
 
 // Load email mappings from Excel file
 const workbook = xlsx.readFile('./MAILING LIST MAPPING.xlsx');
-<<<<<<< HEAD
-const prioritySheet = xlsx.utils.sheet_to_json(workbook.Sheets['MAILING LIST BY PRIORITY']);
-const districtSheet = xlsx.utils.sheet_to_json(workbook.Sheets['MAILING LIST BY DISTRICT']);
-=======
 const emailSheet = xlsx.utils.sheet_to_json(workbook.Sheets['MAILING LIST BY PRIORITY']);
 //const districtSheet = xlsx.utils.sheet_to_json(workbook.Sheets['MAILING LIST BY DISTRICT']);
->>>>>>> 036716204d0c75b256cd8c9bce7f7466d7f7c7fa
 
 /**
  * Create a JWT client with the given credentials, and then execute the given callback function.
@@ -49,11 +44,7 @@ function getLatestMonthSheetName(auth, spreadsheetId, callback) {
 
         const sheetNames = res.data.sheets.map(sheet => sheet.properties.title);
         const months = [
-<<<<<<< HEAD
-            "January", "February", "March", "April", "May", "June", 
-=======
             "January", "February", "March", "April", "May", "June",
->>>>>>> 036716204d0c75b256cd8c9bce7f7466d7f7c7fa
             "July", "August", "September", "October", "November", "December"
         ];
         const now = new Date();
@@ -79,21 +70,13 @@ function getLatestMonthSheetName(auth, spreadsheetId, callback) {
  * @param {google.auth.JWT} auth The authenticated Google JWT client.
  */
 function watchSpreadsheet(auth) {
-<<<<<<< HEAD
     const spreadsheetId = '1mQtPBqIDHdkDRumLVF4XVxoR6Uln1063Pk_SbDHDD2A';
-=======
-    const spreadsheetId = '1HkI7_IXf-ZD80pnzOHowecJ4ncUXlB418Q_R5fmu5fI';
->>>>>>> 036716204d0c75b256cd8c9bce7f7466d7f7c7fa
     getLatestMonthSheetName(auth, spreadsheetId, (latestSheetName) => {
         if (!latestSheetName) {
             console.log('No valid sheet found. Exiting.');
             return;
         }
-<<<<<<< HEAD
-        
-=======
 
->>>>>>> 036716204d0c75b256cd8c9bce7f7466d7f7c7fa
         const sheets = google.sheets({ version: 'v4', auth });
         const range = `${latestSheetName}!A:Z`;
 
@@ -133,19 +116,10 @@ function watchSpreadsheet(auth) {
                                 formattedText += `<li><strong>${header}:</strong> ${value}</li>`;
                             });
                             formattedText += '</ul>';
-<<<<<<< HEAD
-                            
-                            // Determine recipient emails
-                            let recipientEmails = determineRecipientEmails(programme, priority, district);
-                            if (recipientEmails) {
-                                sendEmail(subject, formattedText, recipientEmails);
-                            }
-=======
 
                             // Determine recipient emails
                             let recipientEmails = determineRecipientEmails(programme, priority, district);
                             sendEmail(subject, formattedText, recipientEmails);
->>>>>>> 036716204d0c75b256cd8c9bce7f7466d7f7c7fa
                         });
                     } else {
                         if (previousData.length === 0) {
@@ -162,11 +136,7 @@ function watchSpreadsheet(auth) {
         };
 
         // Check for changes every 5 minutes
-<<<<<<< HEAD
         setInterval(checkForChanges, 300000);
-=======
-        setInterval(checkForChanges, 3000);
->>>>>>> 036716204d0c75b256cd8c9bce7f7466d7f7c7fa
     });
 }
 
@@ -175,33 +145,6 @@ function watchSpreadsheet(auth) {
  * @param {string} programme The programme of the case.
  * @param {string} priority The priority of the case.
  * @param {string} district The district of the case.
-<<<<<<< HEAD
- * @return {string|null} The recipient emails or null if no emails should be sent.
- */
-function determineRecipientEmails(programme, priority, district) {
-    let recipientEmails = [];
-
-    if (priority.includes('High')) {
-        recipientEmails = prioritySheet
-            .filter(row => row.Priority.includes('High'))
-            .map(row => row.Emails.split(';'))
-            .flat();
-    } else if (priority.includes('Medium') || priority.includes('Low')) {
-        recipientEmails = prioritySheet
-            .filter(row => row.Priority.includes('Medium/Low'))
-            .map(row => row.Emails.split(';'))
-            .flat();
-    }
-
-    const districtRow = districtSheet.find(row => row.District === district);
-    if (districtRow) {
-        recipientEmails = recipientEmails.concat(districtRow.Emails.split(';'));
-    }
-
-    return recipientEmails.length > 0 ? recipientEmails.join(',') : null;
-}
-
-=======
  * @return {string} The recipient emails.
  */
 /**
@@ -245,7 +188,6 @@ function determineRecipientEmails(programme, priority, district) {
 
     return recipientEmails.length > 0 ? recipientEmails.split(';').join(',') : null;
 }
->>>>>>> 036716204d0c75b256cd8c9bce7f7466d7f7c7fa
 /**
  * Send an email notification.
  * @param {string} subject The subject of the email.
