@@ -70,7 +70,7 @@ function getLatestMonthSheetName(auth, spreadsheetId, callback) {
  * @param {google.auth.JWT} auth The authenticated Google JWT client.
  */
 function watchSpreadsheet(auth) {
-    const spreadsheetId = '1HkI7_IXf-ZD80pnzOHowecJ4ncUXlB418Q_R5fmu5fI';
+    const spreadsheetId = '1mQtPBqIDHdkDRumLVF4XVxoR6Uln1063Pk_SbDHDD2A';
     getLatestMonthSheetName(auth, spreadsheetId, (latestSheetName) => {
         if (!latestSheetName) {
             console.log('No valid sheet found. Exiting.');
@@ -136,7 +136,7 @@ function watchSpreadsheet(auth) {
         };
 
         // Check for changes every 5 minutes
-        setInterval(checkForChanges, 3000);
+        setInterval(checkForChanges, 300000);
     });
 }
 
