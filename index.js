@@ -155,14 +155,21 @@ function watchSpreadsheet(auth) {
  * @return {string|null} The recipient emails or null if no emails should be sent.
  */
 function determineRecipientEmails(programme, priority, district) {
-    // Treat undefined programme as 'other'
-    const actualProgramme = programme && programme !== 'undefined' ? programme : 'Other';
+    // Helper function to normalize strings: trim and convert to lower case
+    function normalize(str) {
+        return str ? str.trim().toLowerCase() : str;
+    }
+
+    // Treat undefined programme as 'Other' and normalize
+    const actualProgramme = normalize(programme && programme !== 'undefined' ? programme : 'Other');
+    const normalizedPriority = normalize(priority);
+    const normalizedDistrict = normalize(district);
 
     let recipientEmails = emailSheet
         .filter(row =>
-            (row.Programme ? row.Programme.includes(actualProgramme) : true) &&
-            (priority ? row.Priority.includes(priority) : true) &&
-            (district ? row.District === district : true)
+            (!row.Programme || normalize(row.Programme) === actualProgramme) &&
+            (!normalizedPriority || normalize(row.Priority) === normalizedPriority) &&
+            (!normalizedDistrict || normalize(row.District) === normalizedDistrict)
         )
         .map(row => row.Emails)
         .join(';'); // Use ';' as the delimiter to match the email splitting in the next step
@@ -171,23 +178,24 @@ function determineRecipientEmails(programme, priority, district) {
         // Fallback to programme and priority only if no recipients are found in the given district
         recipientEmails = emailSheet
             .filter(row =>
-                (row.Programme ? row.Programme.includes(actualProgramme) : true) &&
-                (priority ? row.Priority.includes(priority) : true)
+                (!row.Programme || normalize(row.Programme) === actualProgramme) &&
+                (!normalizedPriority || normalize(row.Priority) === normalizedPriority)
             )
             .map(row => row.Emails)
             .join(';');
     }
 
-    if (recipientEmails.length === 0 && priority.includes('High')) {
+    if (recipientEmails.length === 0 && normalizedPriority === 'high') {
         // Fallback to high priority emails if no recipients found
         recipientEmails = emailSheet
-            .filter(row => row.Priority.includes('High'))
+            .filter(row => normalize(row.Priority) === 'high')
             .map(row => row.Emails)
             .join(';');
     }
 
     return recipientEmails.length > 0 ? recipientEmails.split(';').join(',') : null;
 }
+
 /**
  * Send an email notification.
  * @param {string} subject The subject of the email.
