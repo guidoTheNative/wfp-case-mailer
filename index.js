@@ -4,13 +4,330 @@ const { google } = require('googleapis');
 const nodemailer = require('nodemailer');
 const xlsx = require('xlsx');
 
+const emailSheet = [
+    {
+        Programme: 'Undefined,Refugees,Lean Season Response,Floods Response,School Meals,Resilience,FFA',
+        Priority: 'Medium/Low/High',
+        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
+        Emails: 'john.chalera@wfp.org'
+    },
+    {
+        Programme: 'Undefined,Refugees,Lean Season Response,Floods Response,School Meals,Resilience,FFA',
+        Priority: 'Medium/Low/High',
+        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
+        Emails: 'maximian.chisawo@wfp.org'
+    },
+    {
+        Programme: 'Refugees',
+        Priority: 'Medium/Low',
+        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
+        Emails: 'wongani.mwandira@wfp.org'
+    },
+    {
+        Programme: 'Refugees',
+        Priority: 'Medium/Low',
+        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
+        Emails: 'chikondi.mchokaliti@wfp.org'
+    },
+    {
+        Programme: 'Refugees',
+        Priority: 'Medium/Low',
+        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
+
+        Emails: 'victoria.huwa@wfp.org'
+    },
+    {
+        Programme: 'Refugees',
+        Priority: 'Medium/Low',
+        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
+
+        Emails: 'john.chalera@wfp.org'
+    },
+    {
+        Programme: 'Refugees',
+        Priority: 'Medium/Low',
+        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
+
+        Emails: 'maximian.chisao@wfp.org'
+    },
+    {
+        Programme: 'Lean Season Response',
+        Priority: 'Medium/Low',
+        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
+
+        Emails: 'wongani.mwandira@wfp.org'
+    },
+    {
+        Programme: 'Lean Season Response',
+        Priority: 'Medium/Low',
+        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
+
+        Emails: 'mphatso.chikhungu@wfp.org'
+    },
+    {
+        Programme: 'Lean Season Response',
+        Priority: 'Medium/Low',
+        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
+
+        Emails: 'maximian.chisao@wfp.org'
+    },
+    {
+        Programme: 'Lean Season Response',
+        Priority: 'Medium/Low',
+        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
+
+        Emails: 'john.chalera@wfp.org'
+    },
+    {
+        Programme: 'Lean Season Response',
+        Priority: 'Medium/Low',
+        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
+
+        Emails: 'victoria.huwa@wfp.org'
+    },
+    {
+        Programme: 'Floods Response',
+        Priority: 'Medium/Low',
+        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
+
+        Emails: 'wongani.mwandira@wfp.org'
+    },
+    {
+        Programme: 'Floods Response',
+        Priority: 'Medium/Low',
+        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
+
+        Emails: 'mphatso.chikhungu@wfp.org'
+    },
+    {
+        Programme: 'Floods Response',
+        Priority: 'Medium/Low',
+        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
+
+        Emails: 'maximian.chisao@wfp.org'
+    },
+   
+    {
+        Programme: 'Floods Response',
+        Priority: 'Medium/Low',
+        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
+
+        Emails: 'victoria.huwa@wfp.org'
+    },
+    {
+        Programme: 'School Meals',
+        Priority: 'Medium/Low',
+        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
+
+        Emails: 'wongani.mwandira@wfp.org'
+    },
+    {
+        Programme: 'School Meals',
+        Priority: 'Medium/Low',
+        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
+
+        Emails: 'mphatso.chikhungu@wfp.org'
+    },
+    {
+        Programme: 'School Meals',
+        Priority: 'Medium/Low',
+        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
+
+        Emails: 'maximian.chisao@wfp.org'
+    },
+    {
+        Programme: 'School Meals',
+        Priority: 'Medium/Low',
+        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
+
+        Emails: 'victoria.huwa@wfp.org'
+    },
+    {
+        Programme: 'School Meals',
+        Priority: 'Medium/Low',
+        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
+
+        Emails: 'john.chalera@wfp.org'
+    },
+    {
+        Programme: 'Resilience',
+        Priority: 'Medium/Low',
+        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
+
+        Emails: 'moses.jemitale@wfp.org'
+    },
+    {
+        Programme: 'Resilience',
+        Priority: 'Medium/Low',
+        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
+
+        Emails: 'chauncy.masamba@wfp.org'
+    },
+    {
+        Programme: 'Resilience',
+        Priority: 'Medium/Low',
+        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
+
+        Emails: 'john.chalera@wfp.org'
+    },
+    {
+        Programme: 'Resilience',
+        Priority: 'Medium/Low',
+        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
+
+        Emails: 'victoria.huwa@wfp.org'
+    },
+    {
+        Programme: 'FFA',
+        Priority: 'Medium/Low',
+        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
+
+        Emails: 'moses.jemitale@wfp.org'
+    },
+    {
+        Programme: 'FFA',
+        Priority: 'Medium/Low',
+        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
+
+        Emails: 'chauncy.masamba@wfp.org'
+    },
+    {
+        Programme: 'FFA',
+        Priority: 'Medium/Low',
+        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
+
+        Emails: 'john.chalera@wfp.org'
+    },
+    {
+        Programme: 'FFA',
+        Priority: 'Medium/Low',
+        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
+
+        Emails: 'victoria.huwa@wfp.org'
+    },
+    {
+        Programme: 'Undefined',
+        Priority: 'Medium/Low',
+        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
+
+        Emails: 'maximian.chisao@wfp.org'
+    },
+    {
+        Programme: 'Undefined',
+        Priority: 'Medium/Low',
+        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
+
+        Emails: 'victoria.huwa@wfp.org'
+    },
+    {
+        Programme: 'Undefined',
+        Priority: 'Medium/Low',
+        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
+
+        Emails: 'john.chalera@wfp.org'
+    },
+    {
+        Programme: 'Undefined,Refugees,Lean Season Response,Floods Response,School Meals,Resilience,FFA',
+        Priority: 'Medium/Low',
+        District: 'Phalombe',
+        Emails: 'anthony.mbilizi@wfp.org'
+    },
+
+    {
+        Programme: 'Undefined,Refugees,Lean Season Response,Floods Response,School Meals,Resilience,FFA',
+        Priority: 'Medium/Low',
+        District: 'Phalombe',
+        Emails: 'sandra.mukiwa@wfp.org'
+    },
+    {
+        Programme: 'Undefined,Refugees,Lean Season Response,Floods Response,School Meals,Resilience,FFA',
+        Priority: 'Medium/Low',
+        District: 'Zomba',
+        Emails: 'sellina.tengatenga@wfp.org; sandra.mukiwa@wfp.org'
+    },
+    {
+        Programme: 'Undefined,Refugees,Lean Season Response,Floods Response,School Meals,Resilience,FFA',
+        Priority: 'Medium/Low',
+        District: 'Mulanje',
+        Emails: 'barbara.longwe@wfp.org; sandra.mukiwa@wfp.org'
+    },
+    {
+        Programme: 'Undefined,Refugees,Lean Season Response,Floods Response,School Meals,Resilience,FFA',
+        Priority: 'Medium/Low',
+        District: 'Chikwawa',
+        Emails: 'alinafe.kamdonyo@wfp.org'
+    },
+    {
+        Programme: 'Undefined,Refugees,Lean Season Response,Floods Response,School Meals,Resilience,FFA',
+        Priority: 'Medium/Low',
+        District: 'Nsanje',
+        Emails: 'penjani.banda@wfp.org; alinafe.kamdonyo@wfp.org'
+    },
+    {
+        Programme: 'Undefined,Refugees,Lean Season Response,Floods Response,School Meals,Resilience,FFA',
+        Priority: 'Medium/Low',
+        District: 'Mangochi',
+        Emails: 'lovemore.ali@wfp.org; maxwell.kamwendo@wfp.org'
+    },
+    {
+        Programme: 'Undefined,Refugees,Lean Season Response,Floods Response,School Meals,Resilience,FFA',
+        Priority: 'Medium/Low',
+        District: 'Machinga',
+        Emails: 'joana.mtingiza@wfp.org; maxwell.kamwendo@wfp.org'
+    },
+    {
+        Programme: 'Undefined,Refugees,Lean Season Response,Floods Response,School Meals,Resilience,FFA',
+        Priority: 'Medium/Low',
+        District: 'Balaka',
+        Emails: 'fanny.maluwa@wfp.org; maxwell.kamwendo@wfp.org'
+    },
+    {
+        Programme: 'Undefined,Refugees,Lean Season Response,Floods Response,School Meals,Resilience,FFA',
+        Priority: 'Medium/Low',
+        District: 'Rumphi',
+        Emails: 'blessings.lungu@wfp.org'
+    },
+    {
+        Programme: 'Undefined,Refugees,Lean Season Response,Floods Response,School Meals,Resilience,FFA',
+        Priority: 'Medium/Low',
+        District: 'Nkhatabay',
+        Emails: 'steven.khuleya@wfp.org; blessings.lungu@wfp.org'
+    },
+    {
+        Programme: 'Undefined,Refugees,Lean Season Response,Floods Response,School Meals,Resilience,FFA',
+        Priority: 'Medium/Low',
+        District: 'Mzimba North',
+        Emails: 'ruben.manda@wfp.org; blessings.lungu@wfp.org'
+    },
+    {
+        Programme: 'Undefined,Refugees,Lean Season Response,Floods Response,School Meals,Resilience,FFA',
+        Priority: 'Medium/Low',
+        District: 'Mzimba South',
+        Emails: 'light.issa@wfp.org; blessings.lungu@wfp.org'
+    },
+    {
+        Programme: 'Undefined,Refugees,Lean Season Response,Floods Response,School Meals,Resilience,FFA',
+        Priority: 'Medium/Low',
+        District: 'Kasungu',
+        Emails: 'sella.chaphamtengo@wfp.org'
+    },
+    {
+        Programme: 'Undefined,Refugees,Lean Season Response,Floods Response,School Meals,Resilience,FFA',
+        Priority: 'Medium/Low',
+        District: 'Salima',
+        Emails: 'verepi.madise@wfp.org'
+    },
+    {
+        Programme: 'Undefined,Refugees,Lean Season Response,Floods Response,School Meals,Resilience,FFA',
+        Priority: 'Medium/Low',
+        District: 'Dedza',
+        Emails: 'thom.kamkodo@wfp.org'
+    }
+];
+
 // Load client secrets from a local file.
 const credentials = require('./service-account.json'); // Path to your service account JSON file
 
-// Load email mappings from Excel file
-const workbook = xlsx.readFile('./MAILING LIST MAPPING.xlsx');
-const emailSheet = xlsx.utils.sheet_to_json(workbook.Sheets['MAILING LIST BY PRIORITY']);
-//const districtSheet = xlsx.utils.sheet_to_json(workbook.Sheets['MAILING LIST BY DISTRICT']);
 
 /**
  * Create a JWT client with the given credentials, and then execute the given callback function.
@@ -119,7 +436,7 @@ function watchSpreadsheet(auth) {
 
                             // Determine recipient emails
                             let recipientEmails = determineRecipientEmails(programme, priority, district);
-                            sendEmail(subject, formattedText, recipientEmails);
+                            if (recipientEmails) { sendEmail(subject, formattedText, recipientEmails); }
                         });
                     } else {
                         if (previousData.length === 0) {
@@ -136,7 +453,7 @@ function watchSpreadsheet(auth) {
         };
 
         // Check for changes every 5 minutes
-        setInterval(checkForChanges, 300000);
+        setInterval(checkForChanges, 3000);
     });
 }
 
@@ -154,47 +471,32 @@ function watchSpreadsheet(auth) {
  * @param {string} district The district of the case.
  * @return {string|null} The recipient emails or null if no emails should be sent.
  */
-function determineRecipientEmails(programme, priority, district) {
-    // Helper function to normalize strings: trim and convert to lower case
-    function normalize(str) {
-        return str ? str.trim().toLowerCase() : str;
-    }
 
-    // Treat undefined programme as 'Other' and normalize
-    const actualProgramme = normalize(programme && programme !== 'undefined' ? programme : 'Other');
+const normalize = (str) => str ? str.trim().toLowerCase() : undefined;
+
+const determineRecipientEmails = (programme, priority, district) => {
+    const actualProgramme = normalize(programme);
     const normalizedPriority = normalize(priority);
     const normalizedDistrict = normalize(district);
 
-    let recipientEmails = emailSheet
-        .filter(row =>
-            (!row.Programme || normalize(row.Programme) === actualProgramme) &&
-            (!normalizedPriority || normalize(row.Priority) === normalizedPriority) &&
-            (!normalizedDistrict || normalize(row.District) === normalizedDistrict)
-        )
-        .map(row => row.Emails)
-        .join(';'); // Use ';' as the delimiter to match the email splitting in the next step
+    const uniqueEmails = new Set();
+    emailSheet
+        .filter(row => {
+            const rowProgrammes = row.Programme.split(',').map(normalize);
+            const rowPriorities = row.Priority.split('/').map(normalize);
+            const rowDistricts = row.District.split(',').map(normalize);
 
-    if (recipientEmails.length === 0) {
-        // Fallback to programme and priority only if no recipients are found in the given district
-        recipientEmails = emailSheet
-            .filter(row =>
-                (!row.Programme || normalize(row.Programme) === actualProgramme) &&
-                (!normalizedPriority || normalize(row.Priority) === normalizedPriority)
-            )
-            .map(row => row.Emails)
-            .join(';');
-    }
+            return (!actualProgramme || rowProgrammes.includes(actualProgramme)) &&
+                (!normalizedPriority || rowPriorities.includes(normalizedPriority)) &&
+                (!normalizedDistrict || rowDistricts.includes(normalizedDistrict));
+        })
+        .forEach(row => {
+            const emails = row.Emails.split(';').map(email => email.trim());
+            emails.forEach(email => uniqueEmails.add(email));
+        });
 
-    if (recipientEmails.length === 0 && normalizedPriority === 'high') {
-        // Fallback to high priority emails if no recipients found
-        recipientEmails = emailSheet
-            .filter(row => normalize(row.Priority) === 'high')
-            .map(row => row.Emails)
-            .join(';');
-    }
-
-    return recipientEmails.length > 0 ? recipientEmails.split(';').join(',') : null;
-}
+    return [...uniqueEmails].join(';');
+};
 
 /**
  * Send an email notification.
