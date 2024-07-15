@@ -67,7 +67,7 @@ function getLatestMonthSheetName(auth, spreadsheetId, callback) {
  * Watch the Google Sheet for changes.
  * @param {google.auth.JWT} auth The authenticated Google JWT client.
  */
-function watchSpreadsheet(auth) {
+/* function watchSpreadsheet(auth) {
     const spreadsheetId = '1mQtPBqIDHdkDRumLVF4XVxoR6Uln1063Pk_SbDHDD2A';
     getLatestMonthSheetName(auth, spreadsheetId, (latestSheetName) => {
         if (!latestSheetName) {
@@ -115,6 +115,99 @@ function watchSpreadsheet(auth) {
                                 formattedText += `<li><strong>${header}:</strong> ${value}</li>`;
                             });
                             formattedText += '</ul>';
+
+                            // Determine recipient emails
+                            let recipientEmails = determineRecipientEmails(programme, priority, district);
+                            if (recipientEmails) { sendEmail(subject, formattedText, recipientEmails); }
+                        });
+                    } else {
+                        if (previousData.length === 0) {
+                            console.log('No previous data to compare.');
+                        } else if (data.length <= previousData.length) {
+                            console.log('No new entries detected.');
+                        }
+                    }
+                    previousData = data;
+                } else {
+                    console.log('No data found.');
+                }
+            });
+        };
+
+        // Check for changes every 15 minutes
+        setInterval(checkForChanges, 900000);
+    });
+}
+
+ */
+function watchSpreadsheet(auth) {
+    const spreadsheetId = '1mQtPBqIDHdkDRumLVF4XVxoR6Uln1063Pk_SbDHDD2A';
+    getLatestMonthSheetName(auth, spreadsheetId, (latestSheetName) => {
+        if (!latestSheetName) {
+            console.log('No valid sheet found. Exiting.');
+            return;
+        }
+
+        const sheets = google.sheets({ version: 'v4', auth });
+        const range = `${latestSheetName}!A:Z`;
+
+        let previousData = [];
+
+        const checkForChanges = () => {
+            sheets.spreadsheets.values.get({ spreadsheetId, range }, (err, res) => {
+                if (err) {
+                    console.log('The API returned an error: ' + err);
+                    return;
+                }
+                const rows = res.data.values;
+                if (rows && rows.length > 0) {
+                    const headers = rows[0]; // First row as headers
+                    const data = rows.slice(1); // Remaining rows as data
+
+                    console.log('Previous data length: ', previousData.length);
+                    console.log('Current data length: ', data.length);
+
+                    if (previousData.length > 0 && data.length > previousData.length) {
+                        console.log('New entries detected.');
+                        const newEntries = data.slice(previousData.length);
+                        console.log('New entries:', newEntries);
+
+                        newEntries.forEach(entry => {
+                            const subject = `New Case Reported: ${entry[0]}`;
+                            let formattedText = `
+                                <div style="font-family: Arial, sans-serif; color: #333;">
+                                    <h2 style="color: #d9534f;">IMPORTANT!</h2>
+                                    <p>Please note that a case has been assigned to your team with the following details:</p>
+                                    <table style="border-collapse: collapse; width: 100%; margin-top: 10px;">
+                                       <thead>
+                                            <tr style="background-color: #f2f2f2;">
+                                                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Category</th>
+                                                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>`;
+                            let programme = 'Undefined';
+                            let priority = 'Medium/Low';
+                            let district = 'Undefined';
+
+                            headers.forEach((header, index) => {
+                                const value = entry[index] !== undefined ? entry[index] : 'N/A';
+                                if (header === 'Programme') programme = value;
+                                if (header === 'Priority') priority = value;
+                                if (header === 'District') district = value;
+                                formattedText += `
+                                            <tr>
+                                                <td style="border: 1px solid #ddd; padding: 8px;">${header}</td>
+                                                <td style="border: 1px solid #ddd; padding: 8px;">${value}</td>
+                                            </tr>`;
+                            });
+
+                            formattedText += `
+                                        </tbody>
+                                    </table>
+                                           <p style="margin-top: 20px; color: #555;"><strong>GLOBAL BENEFICIARY FEEDBACK | WFP MALAWI</strong></p>
+                             
+                                </div>`;
 
                             // Determine recipient emails
                             let recipientEmails = determineRecipientEmails(programme, priority, district);
