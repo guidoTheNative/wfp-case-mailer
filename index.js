@@ -103,13 +103,13 @@ function watchSpreadsheet(auth) {
                         newEntries.forEach(entry => {
                             const subject = `New Case Reported: ${entry[0]}`;
                             let formattedText = `
-                                <div style="font-family: Arial, sans-serif; color: #333;">
-                                    <h5 style="color: #555;">Please note that a case has been assigned to your team with the following details:</h5>
-                                    <table style="border-collapse: collapse; width: 100%; margin-top: 10px;">
-                                       <thead>
-                                            <tr style="background-color: #f2f2f2;">
-                                                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Category</th>
-                                                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Description</th>
+                                <div style="font-family: Aptos; color: #333;">
+                                    <h3 style="color: #096eb4; font-style: italic;">Please note that a case has been assigned to your team with the following details:</h3>
+                                    <table style="border-collapse: collapse; width: 100%; margin-top: 10px; border-left: 4px solid #096eb4;  border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                                        <thead>
+                                            <tr style="background-color: #f2f2f2; color: #096eb4;">
+                                                <th style="padding: 8px; border: 1px solid #ddd; border-top-left-radius: 10px; border-top-right-radius: 10px;">Category</th>
+                                                <th style="padding: 8px; border: 1px solid #ddd; border-top-left-radius: 10px; border-top-right-radius: 10px;">Description</th>
                                             </tr>
                                         </thead>
                                         <tbody>`;
@@ -124,15 +124,15 @@ function watchSpreadsheet(auth) {
                                 if (header === 'District') district = value;
                                 formattedText += `
                                             <tr>
-                                                <td style="border: 1px solid #ddd; padding: 8px;">${header}</td>
-                                                <td style="border: 1px solid #ddd; padding: 8px;">${value}</td>
+                                                <td style="padding: 8px; font-weight: bold; color: #096eb4;">${header}</td>
+                                                <td style="padding: 8px; color: #666;">${value}</td>
                                             </tr>`;
                             });
 
                             formattedText += `
                                         </tbody>
                                     </table>
-                                           <p style="margin-top: 20px; color: #555;"><strong>GLOBAL BENEFICIARY FEEDBACK | WFP MALAWI</strong></p>
+                                      <p style="margin-top: 20px; color: #096eb4; font-style: italic;"><strong>GLOBAL BENEFICIARY FEEDBACK | WFP MALAWI</strong></p>
                              
                                 </div>`;
 
@@ -225,7 +225,8 @@ function sendEmail(subject, html, recipientEmails) {
             'X-Priority': '1 (Highest)',
             'X-MSMail-Priority': 'High',
             'Importance': 'High'
-        }
+        },
+        priority: 'high'
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
