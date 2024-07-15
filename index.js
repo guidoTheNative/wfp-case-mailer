@@ -105,13 +105,8 @@ function watchSpreadsheet(auth) {
                             let formattedText = `
                                 <div style="font-family: Aptos; color: #333;">
                                     <h3 style="color: #096eb4; font-style: italic;">Please note that a case has been assigned to your team with the following details:</h3>
-                                    <table style="border-collapse: collapse; width: 100%; margin-top: 10px; border-left: 4px solid #096eb4;  border-top-left-radius: 10px; border-top-right-radius: 10px;">
-                                        <thead>
-                                            <tr style="background-color: #f2f2f2; color: #096eb4;">
-                                                <th style="padding: 8px; border: 1px solid #ddd; border-top-left-radius: 10px; border-top-right-radius: 10px;">Category</th>
-                                                <th style="padding: 8px; border: 1px solid #ddd; border-top-left-radius: 10px; border-top-right-radius: 10px;">Description</th>
-                                            </tr>
-                                        </thead>
+                                    <table style="background-color: #eef1f4;border-collapse: collapse; width: 100%; margin-top: 10px; border-left: 4px solid #096eb4;  border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                                
                                         <tbody>`;
                             let programme = 'Undefined';
                             let priority = 'Medium/Low';
@@ -124,8 +119,8 @@ function watchSpreadsheet(auth) {
                                 if (header === 'District') district = value;
                                 formattedText += `
                                             <tr>
-                                                <td style="padding: 8px; font-weight: bold; color: #096eb4;">${header}</td>
-                                                <td style="padding: 8px; color: #666;">${value}</td>
+                                                <td style="padding: 8px; font-weight: bold; color: #096eb4; font-style: italic;">${header}</td>
+                                                <td style="padding: 8px; color: #717171;">${value}</td>
                                             </tr>`;
                             });
 
