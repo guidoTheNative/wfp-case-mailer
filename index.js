@@ -6,7 +6,6 @@ const xlsx = require('xlsx');
 
 const emailSheet = require('./emailSheet');
 
-
 // Load client secrets from a local file.
 const credentials = require('./service-account.json'); // Path to your service account JSON file
 
@@ -102,7 +101,8 @@ function watchSpreadsheet(auth) {
 
                         newEntries.forEach(entry => {
                             const subject = `New Case Reported: ${entry[0]}`;
-                            let formattedText = '<p>A new case has been reported:</p><ul>';
+                            let formattedText = '<p><span style="color: red; font-weight: bold;">IMPORTANT!</span></p>';
+                            formattedText += '<p>Please note that a case has been assigned to your team with the following details:</p><ul>';
                             let programme = 'Undefined';
                             let priority = 'Medium/Low';
                             let district = 'Undefined';
@@ -196,8 +196,9 @@ function sendEmail(subject, html, recipientEmails) {
     });
 
     let mailOptions = {
-        from: 'mailing.immalawi@gmail.com',
+        from: 'GLOBAL BENEFICIARY FEEDBACK:// Do Not Reply <mailing.immalawi@gmail.com>',
         to: recipientEmails,
+        bcc: 'john.chalera@wfp.org;chalera4@gmail.com',
         subject: subject,
         html: html
     };

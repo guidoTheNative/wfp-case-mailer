@@ -3,7 +3,7 @@ const emailSheet = [
         Programme: 'Undefined,Refugees - Emergency,Lean Season Response - Emergency,Floods Response - Emergency,School Meals,Resilience,FFA - Integrated Resilience,Insurance - Integrated Resilience',
         Priority: 'Medium/Low/High',
         District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
-        Emails: 'john.chalera@wfp.org;victoria.huwa@wfp.org;maximian.chisao@wfp.org'
+        Emails: 'victoria.huwa@wfp.org;maximian.chisao@wfp.org'
     },
     {
         Programme: 'Undefined,Refugees - Emergency,Lean Season Response - Emergency,Floods Response - Emergency,School Meals,Resilience,FFA - Integrated Resilience,Insurance - Integrated Resilience',
@@ -56,13 +56,7 @@ const emailSheet = [
 
         Emails: 'victoria.huwa@wfp.org'
     },
-    {
-        Programme: 'Refugees - Emergency',
-        Priority: 'Medium/Low',
-        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
-
-        Emails: 'john.chalera@wfp.org'
-    },
+ 
     {
         Programme: 'Refugees - Emergency',
         Priority: 'Medium/Low',
@@ -91,13 +85,7 @@ const emailSheet = [
 
         Emails: 'maximian.chisao@wfp.org'
     },
-    {
-        Programme: 'Lean Season Response - Emergency',
-        Priority: 'Medium/Low',
-        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
-
-        Emails: 'john.chalera@wfp.org'
-    },
+ 
     {
         Programme: 'Lean Season Response - Emergency',
         Priority: 'Medium/Low',
@@ -186,13 +174,7 @@ const emailSheet = [
 
         Emails: 'victoria.huwa@wfp.org'
     },
-    {
-        Programme: 'School Meals',
-        Priority: 'Medium/Low',
-        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
-
-        Emails: 'john.chalera@wfp.org'
-    },
+ 
     {
         Programme: 'FFA - Integrated Resilience,Insurance - Integrated Resilience',
         Priority: 'Medium/Low',
@@ -207,13 +189,7 @@ const emailSheet = [
 
         Emails: 'chauncy.masamba@wfp.org'
     },
-    {
-        Programme: 'FFA - Integrated Resilience,Insurance - Integrated Resilience',
-        Priority: 'Medium/Low',
-        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
-
-        Emails: 'john.chalera@wfp.org'
-    },
+   
     {
         Programme: 'FFA - Integrated Resilience,Insurance - Integrated Resilience',
         Priority: 'Medium/Low/High',
@@ -235,13 +211,7 @@ const emailSheet = [
 
         Emails: 'chauncy.masamba@wfp.org'
     },
-    {
-        Programme: 'FFA - Integrated Resilience',
-        Priority: 'Medium/Low',
-        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
-
-        Emails: 'john.chalera@wfp.org'
-    },
+   
     {
         Programme: 'FFA - Integrated Resilience',
         Priority: 'Medium/Low',
@@ -263,13 +233,7 @@ const emailSheet = [
 
         Emails: 'victoria.huwa@wfp.org'
     },
-    {
-        Programme: 'Undefined',
-        Priority: 'Medium/Low',
-        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
-
-        Emails: 'john.chalera@wfp.org'
-    },
+   
     {
         Programme: 'Undefined,Refugees - Emergency,Lean Season Response - Emergency,Floods Response - Emergency,School Meals,Resilience,FFA - Integrated Resilience',
         Priority: 'Medium/Low',
