@@ -105,8 +105,7 @@ function watchSpreadsheet(auth) {
                             let formattedText = `
                                 <div style="font-family: Aptos; color: #333;">
                                     <h3 style="color: #096eb4; font-style: italic;">Please note that a case has been assigned to your team with the following details:</h3>
-                                    <table style="background-color: #eef1f4;border-collapse: collapse; width: 100%; margin-top: 10px; border-left: 4px solid #096eb4;  border-top-left-radius: 10px; border-top-right-radius: 10px;">
-                                
+                                    <table style="background-color: #eef1f4;border-collapse: collapse; width: 100%; margin-top: 10px; border-left: 4px solid #096eb4;  border-top-left-radius: 10px; border-top-right-radius: 10px;  border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">                               
                                         <tbody>`;
                             let programme = 'Undefined';
                             let priority = 'Medium/Low';
@@ -129,7 +128,8 @@ function watchSpreadsheet(auth) {
                                     </table>
                                       <p style="margin-top: 20px; color: #096eb4; font-style: italic;"><strong>GLOBAL BENEFICIARY FEEDBACK | WFP MALAWI</strong></p>
                              
-                                </div>`;
+                                </div>
+                                   <hr style="margin-top: 20px; border: 0; border-top: 1px solid #e1e5e7;" />`;
 
                             // Determine recipient emails
                             let recipientEmails = determineRecipientEmails(programme, priority, district);
