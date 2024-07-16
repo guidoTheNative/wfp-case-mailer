@@ -144,8 +144,8 @@ const createEmailBody = (entry, headers) => {
             <h3 style="color: #096eb4; font-style: italic;">
                 Please note that a case has been assigned to your team with the following details:
             </h3>
-            <table style="background-color: #eef1f4; border-collapse: collapse; width: 100%; margin-top: 10px; border-left: 4px solid #096eb4; border-radius: 10px;">
-                <tbody>`;
+                  <table style="background-color: #eef1f4;border-collapse: collapse; width: 100%; margin-top: 10px; border-left: 4px solid #096eb4;  border-top-left-radius: 10px; border-top-right-radius: 10px;  border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">                               
+                                  <tbody>`;
 
     headers.forEach((header, index) => {
         const value = entry[index] !== undefined ? entry[index] : 'N/A';
