@@ -6,7 +6,7 @@ const emailSheet = [
         Emails: 'victoria.huwa@wfp.org;maximian.chisao@wfp.org'
     },
     {
-        Programme: 'Undefined,Refugees - Emergency,Lean Season Response - Emergency,Floods Response - Emergency,School Meals,Resilience,FFA - Integrated Resilience,Insurance - Integrated Resilience',
+        Programme: 'Undefined,Refugees - Emergency,Lean Season Response - Emergency,Floods Response - Emergency,School Meals,Resilience,FFA - Integrated Resilience,Insurance - Integrated Resilience,Nutrition',
         Priority: 'Medium/Low',
         District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
         Emails: 'elton.mgalamadzi@wfp.org;victoria.huwa@wfp.org;maximian.chisao@wfp.org'
@@ -161,11 +161,20 @@ const emailSheet = [
     },
 
     {
+        Programme: 'Nutrition',
+        Priority: 'Medium/Low/High',
+        District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
+        Emails: 'linny.msowoya@wfp.org'
+    },
+
+ 
+   
+    {
         Programme: 'School Meals',
         Priority: 'Medium/Low/High',
         District: 'National,Dedza,Dowa,Kasungu,Lilongwe,Mchinji,Nkhotakota,Ntcheu,Ntchisi,Salima,Chitipa,Karonga,Likoma,Mzimba,Nkhata Bay,Rumphi,Balaka,Blantyre,Chikwawa,Chiradzulu,Machinga,Mangochi,Mulanje,Mwanza,Nsanje,Thyolo,Phalombe,Zomba,Neno',
 
-        Emails: 'linny.msowoya@wfp.org'
+        Emails: 'madalo.thombozi@wfp.org'
     },
     {
         Programme: 'School Meals',
