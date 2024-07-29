@@ -133,7 +133,7 @@ function watchSpreadsheet(auth) {
 
                             // Determine recipient emails
                             let recipientEmails = determineRecipientEmails(programme, priority, district);
-                            if (recipientEmails) { sendEmail(subject, formattedText, recipientEmails); }
+                            if (recipientEmails) { sendEmail(subject, formattedText, recipientEmails, priority); }
                         });
                     } else {
                         if (previousData.length === 0) {
@@ -149,8 +149,8 @@ function watchSpreadsheet(auth) {
             });
         };
 
-        // Check for changes every 15 minutes
-        setInterval(checkForChanges, 900000);
+        // Check for changes every 20 minutes
+        setInterval(checkForChanges, 1000000);
     });
 }
 
@@ -201,7 +201,7 @@ const determineRecipientEmails = (programme, priority, district) => {
  * @param {string} html The body of the email in HTML format.
  * @param {string} recipientEmails The recipient emails.
  */
-function sendEmail(subject, html, recipientEmails) {
+function sendEmail(subject, html, recipientEmails, priority) {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -215,14 +215,20 @@ function sendEmail(subject, html, recipientEmails) {
         to: recipientEmails,
         bcc: 'john.chalera@wfp.org;chalera4@gmail.com',
         subject: subject,
-        html: html,
-        headers: {
-            'X-Priority': '1 (Highest)',
-            'X-MSMail-Priority': 'High',
-            'Importance': 'High'
-        },
-        priority: 'high'
+        html: html
     };
+
+    if (priority.toLowerCase() === 'high') {
+        mailOptions = {
+            ...mailOptions,
+            headers: {
+                'X-Priority': '1 (Highest)',
+                'X-MSMail-Priority': 'High',
+                'Importance': 'High'
+            },
+            priority: 'high'
+        };
+    }
 
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
@@ -231,6 +237,5 @@ function sendEmail(subject, html, recipientEmails) {
         console.log('Email sent: ' + info.response);
     });
 }
-
 // Authorize and start watching the spreadsheet
 authorize(credentials, watchSpreadsheet);
